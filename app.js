@@ -7,10 +7,14 @@
   const DEMO = !C.SCRIPT_URL || !/^https:\/\/script\.google\.com\//.test(C.SCRIPT_URL);
 
   // Columnas de la hoja (el script las acomoda según el encabezado real)
-  const COLUMNAS = ['ID Inspección', 'Fecha', 'Hora', 'Número de Activo', 'Marca', 'Tipo', 'Provincia', 'Cantón', 'Distrito',
-    'Fijos', 'Pedestal', 'CV', 'Tornillería', 'P. Estática (PSI)', 'P. Dinámica (PSI)', 'Caudal (L/min)',
-    'Repello de pedestal', 'Levantamiento de CV', 'Trabajo de soldadura', 'Sustitución de grafito',
-    'Observaciones', 'Ubicación GPS', 'Cuadrilla'];
+  const COLUMNAS = [
+    'ID Inspección', 'Fecha', 'Hora', 'Número de Activo', 'Marca', 'Tipo', 'Provincia', 'Cantón', 'Distrito', 'Fijos',
+    'Const de Pedestal', 'Repello de pedestal', 'Tornillería', 'Pintura de pedestal', 'Levantamiento de CV',
+    'Instalacion de CV', 'Const dado de CV', 'Instalacion de Mamparas', 'Trabajo de soldadura 100mm',
+    'Trabajo de soldadura 150mm', 'Sondeo en Asfalto', 'Sondeo en Lastre', 'Sondeo en Concreto', 'Sondeo en Adoquin',
+    'Rep. Calzada Asfalto', 'Rep. Calzada Concreto', 'Sustitución de grafito', 'Constru. Muro de Protección',
+    'P. Estática (PSI)', 'P. Dinámica (PSI)', 'Caudal (L/min)', 'Observaciones', 'Ubicación GPS', 'Cuadrilla'
+  ];
 
   // ---------- almacenamiento local seguro ----------
   const K = { regs: 'hid.registros', lists: 'hid.listas', sticky: 'hid.fijos', draft: 'hid.borrador', target: 'hid.destino' };

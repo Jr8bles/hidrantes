@@ -1,5 +1,5 @@
 /* Service worker: permite abrir la app sin conexión. Sube VERSION al publicar cambios. */
-const VERSION = 'hidrantes-v1';
+const VERSION = 'hidrantes-v2';
 const ARCHIVOS = ['./', 'index.html', 'styles.css', 'app.js', 'config.js',
   'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
 
