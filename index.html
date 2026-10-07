@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Hidrantes</title>
+  <meta name="description" content="Inspección de hidrantes en campo">
+  <meta name="theme-color" content="#B3261E">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Hidrantes">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img src="icons/icon-192.png" alt="" width="32" height="32">
+      <div>
+        <h1>Inspección de Hidrantes</h1>
+        <p id="estado" class="estado"><span class="dot"></span><span id="estadoTxt">Cargando…</span></p>
+      </div>
+    </div>
+    <div class="acciones">
+      <button id="btnInstalar" class="btn ghost small" hidden>Instalar</button>
+    </div>
+  </header>
+
+  <div id="bannerDemo" class="banner" hidden>
+    <strong>Modo demostración.</strong> Falta configurar <code>config.js</code>. Los registros se guardan solo en este dispositivo y se pueden exportar a CSV.
+  </div>
+
+  <nav class="tabs" role="tablist">
+    <button role="tab" class="tab active" data-tab="nueva" aria-selected="true">Nueva inspección</button>
+    <button role="tab" class="tab" data-tab="historial" aria-selected="false">Registros <span id="badge" class="badge" hidden>0</span></button>
+  </nav>
+
+  <main>
+    <!-- ================= FORMULARIO ================= -->
+    <form id="form" class="panel" data-panel="nueva" novalidate autocomplete="off">
+
+      <section class="card">
+        <h2>Identificación</h2>
+        <div class="grid">
+          <label class="field">
+            <span>Número de Activo *</span>
+            <input data-col="Número de Activo" name="activo" required inputmode="text" placeholder="Ej. H-0123">
+          </label>
+          <label class="field">
+            <span>Cuadrilla *</span>
+            <select data-col="Cuadrilla" data-list="CUADRILLA" data-sticky required></select>
+          </label>
+          <label class="field">
+            <span>Marca *</span>
+            <select data-col="Marca" data-list="MARCAS" required></select>
+          </label>
+          <label class="field">
+            <span>Tipo *</span>
+            <select data-col="Tipo" data-list="TIPO" required></select>
+          </label>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Ubicación</h2>
+        <div class="grid g3">
+          <label class="field">
+            <span>Provincia *</span>
+            <select data-col="Provincia" data-list="PROVINCIA" data-sticky required></select>
+          </label>
+          <label class="field">
+            <span>Cantón *</span>
+            <select data-col="Cantón" data-list="CANTON" data-sticky required></select>
+          </label>
+          <label class="field">
+            <span>Distrito *</span>
+            <select data-col="Distrito" data-list="DISTRITO" data-sticky required></select>
+          </label>
+        </div>
+        <div class="gps">
+          <label class="field grow">
+            <span>Ubicación GPS</span>
+            <input data-col="Ubicación GPS" id="gps" placeholder="lat, long" inputmode="decimal">
+          </label>
+          <button type="button" id="btnGps" class="btn secondary">Capturar GPS</button>
+        </div>
+        <p id="gpsInfo" class="hint"></p>
+      </section>
+
+      <section class="card">
+        <h2>Estado del hidrante *</h2>
+        <div class="yn-list">
+          <div class="yn" data-col="Fijos" data-required><span class="lbl">Fijos</span>
+            <div class="seg"><label><input type="radio" name="Fijos" value="Sí"><span>Sí</span></label><label><input type="radio" name="Fijos" value="No"><span>No</span></label></div></div>
+          <div class="yn" data-col="Pedestal" data-required><span class="lbl">Pedestal</span>
+            <div class="seg"><label><input type="radio" name="Pedestal" value="Sí"><span>Sí</span></label><label><input type="radio" name="Pedestal" value="No"><span>No</span></label></div></div>
+          <div class="yn" data-col="CV" data-required><span class="lbl">CV</span>
+            <div class="seg"><label><input type="radio" name="CV" value="Sí"><span>Sí</span></label><label><input type="radio" name="CV" value="No"><span>No</span></label></div></div>
+          <div class="yn" data-col="Tornillería" data-required><span class="lbl">Tornillería</span>
+            <div class="seg"><label><input type="radio" name="Tornillería" value="Sí"><span>Sí</span></label><label><input type="radio" name="Tornillería" value="No"><span>No</span></label></div></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Mediciones</h2>
+        <div class="grid g3">
+          <label class="field">
+            <span>P. Estática (PSI)</span>
+            <input data-col="P. Estática (PSI)" type="number" inputmode="decimal" step="any" min="0" max="300" data-num>
+          </label>
+          <label class="field">
+            <span>P. Dinámica (PSI)</span>
+            <input data-col="P. Dinámica (PSI)" type="number" inputmode="decimal" step="any" min="0" max="300" data-num>
+          </label>
+          <label class="field">
+            <span>Caudal (L/min)</span>
+            <input data-col="Caudal (L/min)" type="number" inputmode="decimal" step="any" min="0" max="20000" data-num>
+          </label>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Trabajos realizados</h2>
+        <div class="yn-list">
+          <div class="yn" data-col="Repello de pedestal" data-default="No"><span class="lbl">Repello de pedestal</span>
+            <div class="seg"><label><input type="radio" name="Repello de pedestal" value="Sí"><span>Sí</span></label><label><input type="radio" name="Repello de pedestal" value="No"><span>No</span></label></div></div>
+          <div class="yn" data-col="Levantamiento de CV" data-default="No"><span class="lbl">Levantamiento de CV</span>
+            <div class="seg"><label><input type="radio" name="Levantamiento de CV" value="Sí"><span>Sí</span></label><label><input type="radio" name="Levantamiento de CV" value="No"><span>No</span></label></div></div>
+          <div class="yn" data-col="Trabajo de soldadura" data-default="No"><span class="lbl">Trabajo de soldadura</span>
+            <div class="seg"><label><input type="radio" name="Trabajo de soldadura" value="Sí"><span>Sí</span></label><label><input type="radio" name="Trabajo de soldadura" value="No"><span>No</span></label></div></div>
+          <div class="yn" data-col="Sustitución de grafito" data-default="No"><span class="lbl">Sustitución de grafito</span>
+            <div class="seg"><label><input type="radio" name="Sustitución de grafito" value="Sí"><span>Sí</span></label><label><input type="radio" name="Sustitución de grafito" value="No"><span>No</span></label></div></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Observaciones</h2>
+        <label class="field">
+          <textarea data-col="Observaciones" rows="4" placeholder="Detalles, daños, recomendaciones…"></textarea>
+        </label>
+      </section>
+
+      <div class="submitbar">
+        <button type="button" id="btnLimpiar" class="btn ghost">Limpiar</button>
+        <button type="submit" id="btnGuardar" class="btn primary">Guardar y enviar</button>
+      </div>
+    </form>
+
+    <!-- ================= HISTORIAL ================= -->
+    <section class="panel" data-panel="historial" hidden>
+      <div class="card">
+        <div class="hist-head">
+          <h2>Registros en este dispositivo</h2>
+          <div class="row">
+            <button id="btnSync" class="btn secondary small">Sincronizar ahora</button>
+            <button id="btnCsv" class="btn ghost small">Exportar CSV</button>
+          </div>
+        </div>
+        <p id="histResumen" class="hint"></p>
+        <ul id="lista" class="lista"></ul>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
